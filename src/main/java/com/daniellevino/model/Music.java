@@ -1,5 +1,10 @@
 package com.daniellevino.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Max;
+
+import java.time.Year;
 
 @Entity
 @Table(name = "musics")
@@ -9,10 +14,20 @@ public class Music {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Required Title")
     private String title;
+
+    @NotBlank(message = "Required Artist")
     private String artist;
+
     private String album;
     private Integer releaseYear;
+
+    @AssertTrue(message = "Future Year Not Allowed")
+    private boolean isReleaseYearValid() {
+        int currentYear = Year.now().getValue();
+        return this.releaseYear <= currentYear;
+    }
 
     public Music() {}
 

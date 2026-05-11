@@ -5,6 +5,7 @@ import java.util.List;
 import com.daniellevino.model.Music;
 import com.daniellevino.repository.MusicRepository;
 import com.daniellevino.service.MusicService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class MusicController {
 
     // CREATE
     @PostMapping
-    public Music create(@RequestBody Music music) {
+    public Music create(@Valid @RequestBody Music music) {
         return musicService.save(music);
     }
 
@@ -40,7 +41,7 @@ public class MusicController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<Music> update(@PathVariable Long id, @RequestBody Music musicDetails) {
+    public ResponseEntity<Music> update(@PathVariable Long id, @Valid @RequestBody Music musicDetails) {
         Music updatedMusic = musicService.update(id,musicDetails);
         return ResponseEntity.ok(updatedMusic);
     }

@@ -13,12 +13,13 @@ public class MusicService {
 
     private final MusicRepository musicRepository;
 
-    public MusicService(MusicRepository musicRepository) {
-        this.musicRepository = musicRepository;
-    }
+    public MusicService(MusicRepository musicRepository) { this.musicRepository=musicRepository; }
 
     // CREATE
     public Music save(Music music) {
+        if (musicRepository.existsByTitleAndArtist(music.getTitle(), music.getArtist())){
+            throw new RuntimeException("Music Already Exists");
+        }
         return musicRepository.save(music);
     }
 
@@ -36,6 +37,12 @@ public class MusicService {
     // UPDATE
     public Music update(Long id, Music upMusic){
         Music music = findById(id);
+
+        if (!music.getTitle().equals(upMusic.getTitle()) || !music.getArtist().equals(upMusic.getArtist())) {
+            if (musicRepository.existsByTitleAndArtist(upMusic.getTitle(), upMusic.getArtist())) {
+                throw new RuntimeException("Music Already Exist");
+            }
+        }
 
         music.setTitle(upMusic.getTitle());
         music.setArtist(upMusic.getArtist());
