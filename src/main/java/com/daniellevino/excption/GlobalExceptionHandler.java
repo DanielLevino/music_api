@@ -1,4 +1,4 @@
-package com.daniellevino;
+package com.daniellevino.excption;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

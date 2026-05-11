@@ -1,5 +1,6 @@
-package com.daniellevino;
+package com.daniellevino.repository;
 
+import com.daniellevino.model.Music;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

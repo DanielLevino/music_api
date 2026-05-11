@@ -1,4 +1,4 @@
-package com.daniellevino;
+package com.daniellevino.model;
 import jakarta.persistence.*;
 
 @Entity
@@ -29,4 +29,11 @@ public class Music {
     public String getArtist() { return artist; }
     public String getAlbum() { return album; }
     public Integer getReleaseYear() { return releaseYear; }
+
+    // Setters
+    public void setTitle(String title) { this.title = title; }
+    public void setArtist(String artist) { this.artist =  artist; }
+    public void setAlbum(String album) { this.album = album; }
+    public void setReleaseYear(Integer releaseYear) { this.releaseYear = releaseYear; }
+
 }

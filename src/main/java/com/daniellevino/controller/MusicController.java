@@ -1,12 +1,15 @@
-package com.daniellevino;
+package com.daniellevino.controller;
 
 import java.util.List;
 
+import com.daniellevino.model.Music;
+import com.daniellevino.repository.MusicRepository;
+import com.daniellevino.service.MusicService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/musics") // Define um prefixo para todas as rotas desta classe
+@RequestMapping("/api/musics")
 public class MusicController {
 
     private final MusicService musicService;
@@ -17,21 +20,32 @@ public class MusicController {
         this.musicRepository = musicRepository;
     }
 
-    @GetMapping
-    public List<Music> getAll() {
-        return musicService.findAll();
-    }
-
-//    @GetMapping("/{id}")
-//    public Music getById(Long id){
-//        return musicService.findById(id);
-//    }
-
+    // CREATE
     @PostMapping
     public Music create(@RequestBody Music music) {
         return musicService.save(music);
     }
 
+    // READ
+    @GetMapping
+    public List<Music> getAll() {
+        return musicService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Music> getById(@PathVariable Long id){
+        Music music = musicService.findById(id);
+        return ResponseEntity.ok(music);
+    }
+
+    // UPDATE
+    @PutMapping("/{id}")
+    public ResponseEntity<Music> update(@PathVariable Long id, @RequestBody Music musicDetails) {
+        Music updatedMusic = musicService.update(id,musicDetails);
+        return ResponseEntity.ok(updatedMusic);
+    }
+
+    // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         try{
@@ -40,6 +54,5 @@ public class MusicController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
-
     }
 }

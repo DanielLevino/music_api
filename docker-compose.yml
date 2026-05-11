@@ -1,5 +1,6 @@
 services:
     app:
+        build: .
         image: maven:3.9.6-eclipse-temurin-21
         volumes:
             - .:/app
@@ -12,6 +13,13 @@ services:
             -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
         depends_on:
             - db
+        develop:
+            watch:
+                - action: sync
+                  path: ./target/classes
+                  target: /app/target/classes
+                - action: rebuild
+                  path: ./pom.xml
 
     db:
         image: postgres:16
@@ -21,6 +29,8 @@ services:
             POSTGRES_DB: musicapp_db
         ports:
             - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
 
 volumes:
     postgres_data:
